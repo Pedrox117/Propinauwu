@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -38,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <Text style={styles.title}>Calculadora de Propinas</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.currencySymbol}>$</Text>
@@ -83,12 +83,21 @@ const HomeScreen = ({ navigation }) => {
         onPress={goToResultScreen}
         color="#BA68C8" 
       />
-      <StatusBar style="auto" />
-    </View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+        {/*  (contenido  del ScrollView) */}
+      </ScrollView>
+      <View style={styles.bottomButtonContainer}>
+        <Button
+          title="Acerca de..."
+          onPress={() => navigation.navigate('Info')}
+          color="#BA68C8"
+        />
+      </View>
+    </>
   );
 };
 
-const ResultScreen = ({ route, navigation }) => {
+const ResultScreen = ({ route }) => {
   const { peopleArray } = route.params;
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [paidAmount, setPaidAmount] = useState('');
@@ -135,12 +144,35 @@ const ResultScreen = ({ route, navigation }) => {
   );
 };
 
+const InfoScreen = () => {
+  const handleGuardar = () => {
+    //para luego 
+    alert('Guardado exitosamente');
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>preferencias de usuarioi</Text>
+      <Text style={styles.infoText}>
+        Es toda profe :c 
+      </Text>
+      <Button
+        title="Guardar"
+        onPress={handleGuardar}
+        color="#BA68C8"
+      />
+      <StatusBar style="auto" />
+    </View>
+  );
+};
+
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Result" component={ResultScreen} />
+        <Stack.Screen name="Info" component={InfoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -206,5 +238,16 @@ const styles = StyleSheet.create({
   personText: {
     fontSize: 16,
     color: '#000',
+  },
+  bottomButtonContainer: {
+    position: 'absolute',
+    bottom: 20,
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  infoText: {
+    fontSize: 16,
+    color: '#000',
+    textAlign: 'center',
   },
 });
