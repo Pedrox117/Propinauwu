@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
+const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HomeScreen = ({ navigation }) => {
@@ -73,7 +75,7 @@ const HomeScreen = ({ navigation }) => {
       <Button
         title="Calcular Propina"
         onPress={calculateTip}
-        color="#BA68C8" 
+        color="#BA68C8"
       />
       <Text style={styles.resultText}>Importe de Propina: ${tipAmount}</Text>
       <Text style={styles.resultText}>Importe Total: ${totalWithTip}</Text>
@@ -81,7 +83,7 @@ const HomeScreen = ({ navigation }) => {
       <Button
         title="Ver Desglose"
         onPress={goToResultScreen}
-        color="#BA68C8" 
+        color="#BA68C8"
       />
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         {/*  (contenido  del ScrollView) */}
@@ -146,7 +148,7 @@ const ResultScreen = ({ route }) => {
 
 const InfoScreen = () => {
   const handleGuardar = () => {
-    //para luego 
+    // luego 
     alert('Guardado exitosamente');
   };
 
@@ -166,17 +168,28 @@ const InfoScreen = () => {
   );
 };
 
-export default function App() {
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Calculadora" component={HomeScreen} />
+      <Tab.Screen name="Desglose" component={ResultScreen} />
+      <Tab.Screen name="Acerca de" component={InfoScreen} />
+    </Tab.Navigator>
+  );
+};
+
+const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Result" component={ResultScreen} />
-        <Stack.Screen name="Info" component={InfoScreen} />
+      <Stack.Navigator initialRouteName="Tabs">
+        <Stack.Screen name="Tabs" component={TabNavigator} />
+        {}
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
@@ -251,3 +264,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+
+  
